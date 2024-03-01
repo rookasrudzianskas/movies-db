@@ -1,6 +1,6 @@
 
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { Text, View } from 'react-native'
 import {StatusBar} from "expo-status-bar";
 import {useEffect, useState} from "react";
 import {fetchTopRatedMovies} from "@/api/movies";
@@ -23,19 +23,31 @@ export default function TabOneScreen() {
         data={movies}
         numColumns={2}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({item}) => (
-          <View className="flex-col">
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <View style={{ width: '50%', padding: 5 }}>
             <Image
-              source={{uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`}}
+              source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
               style={{
-                aspectRatio: 2 / 3,
+                aspectRatio: 1,
+                resizeMode: 'cover',
                 width: '100%',
+                borderRadius: 10,
+                height: 200,  // Increase the height slightly
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.20,
+                shadowRadius: 1.41,
               }}
             />
-            <Text>{item.title}</Text>
+            <Text className="text-lg font-semibold">{item.title}</Text>
           </View>
         )}
       />
+
       <StatusBar style="auto" />
     </View>
   );
