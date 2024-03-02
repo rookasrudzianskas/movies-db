@@ -1,5 +1,4 @@
 
-import EditScreenInfo from '@/components/EditScreenInfo';
 import {ActivityIndicator, Text, View} from 'react-native'
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
