@@ -6,6 +6,7 @@ import React, {useEffect, useState} from "react";
 import {fetchTopRatedMovies} from "@/api/movies";
 import {FlatList, Image} from "react-native";
 import {useQuery} from "@tanstack/react-query";
+import MovieListItem from "@/components/movie-list-item";
 
 export default function TabOneScreen() {
   const {data: movies, isLoading, error} = useQuery({queryKey: ['movies'], queryFn: fetchTopRatedMovies});
@@ -24,28 +25,11 @@ export default function TabOneScreen() {
         data={movies}
         numColumns={2}
         keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ gap: 5, padding: 5 }}
+        columnWrapperStyle={{ gap: 5 }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <View style={{ width: '50%', padding: 5 }}>
-            <Image
-              source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
-              style={{
-                aspectRatio: 1,
-                resizeMode: 'cover',
-                width: '100%',
-                borderRadius: 10,
-                height: 200,  // Increase the height slightly
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.20,
-                shadowRadius: 1.41,
-              }}
-            />
-            <Text className="text-lg font-semibold">{item.title}</Text>
-          </View>
+          <MovieListItem movie={item} />
         )}
       />
 
