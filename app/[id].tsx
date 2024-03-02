@@ -2,10 +2,16 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {Stack} from "expo-router";
+import {Stack, useLocalSearchParams} from "expo-router";
+import {useQuery} from "@tanstack/react-query";
+import {fetchMovieDetails} from "@/api/movies";
 
 const MovieDetails = () => {
-
+  const { id } = useLocalSearchParams();
+   const {data: movie, isLoading, error, mutate} = useQuery({
+    queryKey: ['movie', id],
+     queryFn: () => fetchMovieDetails(id)
+  });
 
   if (isLoading || error) {
     return (
