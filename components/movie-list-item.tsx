@@ -6,8 +6,8 @@ const MovieListItem = ({ movie }: {movie: any}) => {
   const router = useRouter();
 
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={() => router.push(`/${movie.id}`)}>
-      <View style={{ flex: 1 }}>
+    <TouchableOpacity style={{ flex: 1 }} activeOpacity={0.7} onPress={() => router.push(`/${movie.id}`)}>
+      <View>
         <Image
           source={{
             uri: 'https://image.tmdb.org/t/p/w500' + movie.poster_path,
