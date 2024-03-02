@@ -5,11 +5,16 @@ import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
 import {fetchTopRatedMovies} from "@/api/movies";
 import {FlatList, Image} from "react-native";
-import {useQuery} from "@tanstack/react-query";
+import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 import MovieListItem from "@/components/movie-list-item";
 
 export default function TabOneScreen() {
-  const {data: movies, isLoading, error} = useQuery({queryKey: ['movies'], queryFn: fetchTopRatedMovies});
+  const { data, isLoading, error, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['movies'],
+    queryFn: fetchTopRatedMovies,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => pages.length + 1
+  });
 
   if (isLoading || error) {
     return (
@@ -18,6 +23,8 @@ export default function TabOneScreen() {
       </View>
     );
   }
+
+  const movies = data?.pages?.flat();
 
   return (
     <View className="flex-1 bg-white">
@@ -31,6 +38,7 @@ export default function TabOneScreen() {
         renderItem={({ item }) => (
           <MovieListItem movie={item} />
         )}
+        onEndReached={() => fetchNextPage()}
       />
 
       <StatusBar style="auto" />
