@@ -1,21 +1,22 @@
 
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from 'react-native'
+import {ActivityIndicator, Text, View} from 'react-native'
 import {StatusBar} from "expo-status-bar";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {fetchTopRatedMovies} from "@/api/movies";
 import {FlatList, Image} from "react-native";
+import {useQuery} from "@tanstack/react-query";
 
 export default function TabOneScreen() {
-  const [movies, setMovies] = useState<any>([]);
+  const {data: movies, isLoading, error} = useQuery({queryKey: ['movies'], queryFn: fetchTopRatedMovies});
 
-  useEffect(() => {
-    const getMovies = async () => {
-      const movies = await fetchTopRatedMovies();
-      setMovies(movies);
-    }
-    getMovies();
-  }, [])
+  if (isLoading || error) {
+    return (
+      <View className='flex h-screen items-center justify-center'>
+        {isLoading ? <ActivityIndicator /> : <Text>Error: {error?.message}</Text>}
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-white">
